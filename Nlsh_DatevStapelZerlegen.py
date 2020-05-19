@@ -88,3 +88,6 @@ def NlshDatevStapelZerlegen ():
                 csv_writer.writerow(row)
 
         zahler_monat += 1
+
+if __name__ == '__main__':
+    NlshDatevStapelZerlegen()

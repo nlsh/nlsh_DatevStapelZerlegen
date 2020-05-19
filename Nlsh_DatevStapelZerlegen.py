@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 """
-Die Listen in Python sind mir noch ein Rätsel, aus PHP kenne ich mehrdimensionale Arrays und Arrays, welche auch mit Strings indiziert werden können.
-In Python erkenne ich nur Excel- Zeilen und ihr Anprechen über Schleifen und Zahlen... furchtbar
-Darum erst einmal eine Definition einer Liste
+Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Monate
+
 """
+# Funktion Definieren
 def NlshDatevStapelZerlegen ():
+    """
+    Die Listen in Python sind mir noch ein Rätsel, aus PHP kenne ich mehrdimensionale Arrays und Arrays, welche auch mit Strings indiziert werden können.
+    In Python erkenne ich nur Excel- Zeilen und ihr Anprechen über Schleifen und Zahlen... furchtbar
+    Darum erst einmal eine Definition einer Liste
+    """
     # Definitionen
     def_monate     = [['DummyMonat0', '0001', '0031', [] ],
                       ['Januar',      '0101', '0131', [] ],
@@ -89,5 +94,6 @@ def NlshDatevStapelZerlegen ():
 
         zahler_monat += 1
 
+# Hauptprogramm, wenn direkt aufgerufen wird
 if __name__ == '__main__':
     NlshDatevStapelZerlegen()

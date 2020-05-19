@@ -47,3 +47,12 @@ Aufsplitten eines mehrmonatigem Buchungsstapel in die einzelnen Monate.
 - Kontrolle des Endergebnisses über die Summen- und Saldenliste
 - hoffentlich nicht: Wiederherstellung der Ausgangssituation durch die
   Sicherung.
+
+## Aufruf
+
+###Vorraussetzung:
+Installation von [Python](https://www.python.org/downloads/ "Python") ( bei Windows unbedingt "**Add Python to environment variables**" aktivieren!)
+Aufruf in der Konsole: 
+```console
+<Pfad zu>Nlsh_DatevStapelZerlegen.py <Pfad zu >DTVF_xxxx.csv
+```

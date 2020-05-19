@@ -1,17 +1,24 @@
 #!/usr/bin/env python
 """
-Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Monate
+Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Buchungsstapel eines Monats
 
 """
+# Imports
+# Module importieren
+import os       # Pfadangabe
+import copy     # Klonen
+import csv      # CSV Dateien
+import sys      # System ( übergebene Argumente...)
+
 # Funktion Definieren
-def NlshDatevStapelZerlegen ():
+def NlshDatevStapelZerlegen (zu_teilender_buchungsstapel):
     """
     Die Listen in Python sind mir noch ein Rätsel, aus PHP kenne ich mehrdimensionale Arrays und Arrays, welche auch mit Strings indiziert werden können.
     In Python erkenne ich nur Excel- Zeilen und ihr Anprechen über Schleifen und Zahlen... furchtbar
     Darum erst einmal eine Definition einer Liste
     """
     # Definitionen
-    def_monate     = [['DummyMonat0', '0001', '0031', [] ],
+    def_monate     = [['DummyMonat0', '0001', '0031', [] ], # Ist das 0. Element, die nächsten dann mit Index als Monat
                       ['Januar',      '0101', '0131', [] ],
                       ['Februar',     '0201', '0229', [] ],
                       ['März',        '0301', '0331', [] ],
@@ -25,14 +32,6 @@ def NlshDatevStapelZerlegen ():
                       ['November',    '1101', '1130', [] ],
                       ['Dezember' ,   '1201', '1231', [] ]
                      ]
-    # TODO: erst einmal noch vollen Pfad im Code, später mal über Konsole beim Aufruf des Programms
-    zu_teilender_buchungsstapel = "D:\ATOM-Projekte\Python\Dateien\DTVF_Buchungsstapel_20200508_112756_00002.csv"
-
-    # Und los geht es
-    # Module importieren
-    import os       # Pfadangabe
-    import copy     # Klonen
-    import csv      # CSV Dateien
 
     # Name und Pfad der zur zerlegenden Datei ermitteln
     name_buchungsstapel = os.path.basename(zu_teilender_buchungsstapel)
@@ -96,4 +95,21 @@ def NlshDatevStapelZerlegen ():
 
 # Hauptprogramm, wenn direkt aufgerufen wird
 if __name__ == '__main__':
-    NlshDatevStapelZerlegen()
+    """
+    Hauptfunktion, wenn dieses Script direkt aufgerufen wird
+    Überprüfung des übergebenen Parameters
+
+    """
+    # Zuerst Kontrolle, ob Parameter übergeben wurde; ([0]->Name der Datei; [1]-> 1. Parameter )
+    if len(sys.argv) != 2:
+        print('Den zu teilenden Buchungsstapel bitte inklusive kompletten Pfad als Parameter angeben!')
+    else:
+        # Wenn Datei keine CSV- Datei ist
+        pfad, filename = os.path.split(sys.argv[1])
+        if (filename.endswith('.csv')) != True:
+            print('Dies ist keine gültige DATEV- Standard Exportdatei .csv- Datei!')
+        # Wenn Datei keine DATEV- Standard- Export- Datei ist
+        elif (filename.startswith('DTVF_')) != True:
+            print('Dies ist keine gültige DATEV- Standard Exportdatei DTVF_- Datei!')
+        else:
+            NlshDatevStapelZerlegen(sys.argv[1])

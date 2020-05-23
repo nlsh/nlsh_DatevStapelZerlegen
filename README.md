@@ -50,9 +50,9 @@ Aufsplitten eines mehrmonatigem Buchungsstapel in die einzelnen Monate.
 
 ## Aufruf
 
-###Vorraussetzung:
+##### Voraussetzung:
 Installation von [Python](https://www.python.org/downloads/ "Python") ( bei Windows unbedingt "**Add Python to environment variables**" aktivieren!)
-Aufruf in der Konsole: 
+Aufruf in der Konsole:
 ```console
 <Pfad zu>Nlsh_DatevStapelZerlegen.py <Pfad zu >DTVF_xxxx.csv
 ```

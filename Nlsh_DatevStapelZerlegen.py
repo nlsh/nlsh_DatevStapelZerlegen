@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 """
-Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Buchungsstapel eines Monats
+Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Monats- Buchungsstapel
+
+ * @package   nlsh/nlsh_DatevStapelZerlegen
+ * @author    Nils Heinold
+ * @copyright Nils Heinold (c) 2020
+ * @link      https://github.com/nlsh/nlsh_DatevStapelZerlegen
+ * @license   LGPL-3.0
 
 """
 # Imports
@@ -10,12 +16,22 @@ import copy     # Klonen
 import csv      # CSV Dateien
 import sys      # System ( übergebene Argumente...)
 
+# kurze Kontrolle der zu teilenden Datei
+def ControlInputFile(file):
+    # Wenn Datei keine CSV- Datei ist
+    pfad, filename = os.path.split(file)
+    if (filename.endswith('.csv')) != True:
+        sys.exit('Dies ist keine gültige DATEV- Standard Exportdatei .csv- Datei!')
+    # Wenn Datei keine DATEV- Standard- Export- Datei ist
+    elif (filename.startswith('DTVF_')) != True:
+        sys.exit('Dies ist keine gültige DATEV- Standard Exportdatei DTVF_- Datei!')
+
 # Funktion Definieren
 def NlshDatevStapelZerlegen (zu_teilender_buchungsstapel):
     """
-    Die Listen in Python sind mir noch ein Rätsel, aus PHP kenne ich mehrdimensionale Arrays und Arrays, welche auch mit Strings indiziert werden können.
-    In Python erkenne ich nur Excel- Zeilen und ihr Anprechen über Schleifen und Zahlen... furchtbar
-    Darum erst einmal eine Definition einer Liste
+    Zerlegt einen über mehrer Monate gebuchten DATEV- Buchungsstapel in
+    monatliche Buchungsstapel und speichert diese ab.
+
     """
     # Definitionen
     def_monate     = [['DummyMonat0', '0001', '0031', [] ], # Ist das 0. Element, die nächsten dann mit Index als Monat
@@ -32,6 +48,8 @@ def NlshDatevStapelZerlegen (zu_teilender_buchungsstapel):
                       ['November',    '1101', '1130', [] ],
                       ['Dezember' ,   '1201', '1231', [] ]
                      ]
+    # Kurze Kontrolle der Übergabe
+    ControlInputFile(zu_teilender_buchungsstapel)
 
     # Name und Pfad der zur zerlegenden Datei ermitteln
     name_buchungsstapel = os.path.basename(zu_teilender_buchungsstapel)
@@ -55,7 +73,17 @@ def NlshDatevStapelZerlegen (zu_teilender_buchungsstapel):
             # Jetzt Daten einlesen
             if zeilennummer > 1:
                 aktuelle_line   = (row)
-                aktueller_monat = aktuelle_line[9][2:4]
+                """
+                Die letzten beiden Ziffern auslesen, kann dreistellig oder vierstellig sein
+                Keine Funktion gefunden, die die letzten x Zeichen eines Strings ausgibt,
+                nur Löschen ist möglich!
+                Datum Länge ermitteln und Bereich auslesen
+                """
+                strlen = len(aktuelle_line[9])
+                if strlen == 3:
+                    aktueller_monat = aktuelle_line[9][1:3]
+                if strlen == 4:
+                    aktueller_monat = aktuelle_line[9][2:4]
 
                 def_monate[int(aktueller_monat)][3].append(aktuelle_line)
 
@@ -79,17 +107,22 @@ def NlshDatevStapelZerlegen (zu_teilender_buchungsstapel):
         zu_schreiben.append(secend_row)
 
         # Daten hinzufügen, da Liste, einzeln durchgehen
+        daten_vorhanden = False
         for i in def_monate[int(zahler_monat)][3]:
-            zu_schreiben.append(i)
+            if i != False:
+                daten_vorhanden = True
+                zu_schreiben.append(i)
 
-        # Pfad und Namen der zu schreibenen Dateien erstellen
-        name_write_csv_file = pfad_buchungsstapel + '\\' + 'DTVF_' + first_line[11] + '_' + first_line[14] + '_' + first_line[15] + '_' + first_line[16] + '.csv'
-        with open(name_write_csv_file, mode='w') as csv_file:
-            # Wichtig hier der lineterminator='\n', entfernt ein zusätzliches CR am Zeilenende!!!!!
-            csv_writer = csv.writer(csv_file, delimiter=';', quotechar='"', lineterminator='\n')
+        # Wenn Daten Vorhanden, dann schreiben
+        if daten_vorhanden == True:
+            # Pfad und Namen der zu schreibenen Dateien erstellen
+            name_write_csv_file = pfad_buchungsstapel + '\\' + 'DTVF_' + first_line[11] + '_' + first_line[14] + '_' + first_line[15] + '_' + first_line[16] + '.csv'
+            with open(name_write_csv_file, mode='w') as csv_file:
+                # Wichtig hier der lineterminator='\n', entfernt ein zusätzliches CR am Zeilenende!!!!!
+                csv_writer = csv.writer(csv_file, delimiter=';', quotechar='"', lineterminator='\n')
 
-            for row in zu_schreiben:
-                csv_writer.writerow(row)
+                for row in zu_schreiben:
+                    csv_writer.writerow(row)
 
         zahler_monat += 1
 
@@ -97,19 +130,10 @@ def NlshDatevStapelZerlegen (zu_teilender_buchungsstapel):
 if __name__ == '__main__':
     """
     Hauptfunktion, wenn dieses Script direkt aufgerufen wird
-    Überprüfung des übergebenen Parameters
-
+    Überprüfung auf übergebenen Parameter
     """
     # Zuerst Kontrolle, ob Parameter übergeben wurde; ([0]->Name der Datei; [1]-> 1. Parameter )
     if len(sys.argv) != 2:
         print('Den zu teilenden Buchungsstapel bitte inklusive kompletten Pfad als Parameter angeben!')
     else:
-        # Wenn Datei keine CSV- Datei ist
-        pfad, filename = os.path.split(sys.argv[1])
-        if (filename.endswith('.csv')) != True:
-            print('Dies ist keine gültige DATEV- Standard Exportdatei .csv- Datei!')
-        # Wenn Datei keine DATEV- Standard- Export- Datei ist
-        elif (filename.startswith('DTVF_')) != True:
-            print('Dies ist keine gültige DATEV- Standard Exportdatei DTVF_- Datei!')
-        else:
-            NlshDatevStapelZerlegen(sys.argv[1])
+        NlshDatevStapelZerlegen(sys.argv[1])

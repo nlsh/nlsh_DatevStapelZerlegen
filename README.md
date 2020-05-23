@@ -37,9 +37,8 @@ Aufsplitten eines mehrmonatigem Buchungsstapel in die einzelnen Monate.
 - Sicherung des Mandanten (zur 100% Sicherheit)
 - Ausdruck Summen- und Saldenliste zur nachträglichen Kontrolle
 - Export des Buchungsstapels aus DATEV- RW in ein separates Verzeichnis
-- Eintragung des Buchungsstapel, inklusive des Pfades in den Code
-  dieses Programmes ( noch, wenn ich mehr über Python weiß, gibt
-  es bestimmt einen anderen Weg.)
+- Aufruf des Programmes (noch in Python, (später als DatevStapelZerlegen.exe)
+  siehe Aufruf
 - Programm starten und im Ordner des Buchungsstapel werden die neuen
   monatlichen Buchungsstapel abgelegt
 - Import der Buchungsstapel über DATEV- RW

@@ -11,10 +11,10 @@ Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Monats- Buchung
 """
 # Imports
 # Module importieren
-import os  # Pfadangabe
+import os    # Pfadangabe
 import copy  # Klonen
-import csv  # CSV Dateien
-import sys  # System ( übergebene Argumente...)
+import csv   # CSV Dateien
+import sys   # System ( übergebene Argumente...)
 
 
 # kurze Kontrolle der zu teilenden Datei
@@ -37,18 +37,18 @@ def nlsh_datev_stapel_zerlegen(zu_teilender_buchungsstapel):
     """
     # Definitionen
     def_monate = [['DummyMonat0', '0001', '0031', []],  # Ist das 0. Element, die nächsten dann mit Index als Monat
-                  ['Januar', '0101', '0131', []],
-                  ['Februar', '0201', '0229', []],
-                  ['März', '0301', '0331', []],
-                  ['April', '0401', '0430', []],
-                  ['Mai', '0501', '0531', []],
-                  ['Juni', '0601', '0630', []],
-                  ['Juli', '0701', '0731', []],
-                  ['August', '0801', '0831', []],
-                  ['September', '0901', '0930', []],
-                  ['Oktober', '1001', '1031', []],
-                  ['November', '1101', '1130', []],
-                  ['Dezember', '1201', '1231', []]
+                  ['Januar',      '0101', '0131', []],
+                  ['Februar',     '0201', '0229', []],
+                  ['März',        '0301', '0331', []],
+                  ['April',       '0401', '0430', []],
+                  ['Mai',         '0501', '0531', []],
+                  ['Juni',        '0601', '0630', []],
+                  ['Juli',        '0701', '0731', []],
+                  ['August',      '0801', '0831', []],
+                  ['September',   '0901', '0930', []],
+                  ['Oktober',     '1001', '1031', []],
+                  ['November',    '1101', '1130', []],
+                  ['Dezember',    '1201', '1231', []]
                   ]
     # Kurze Kontrolle der Übergabe
     control_input_file(zu_teilender_buchungsstapel)

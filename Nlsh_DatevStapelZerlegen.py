@@ -11,10 +11,11 @@ Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Monats- Buchung
 """
 # Imports
 # Module importieren
-import os    # Pfadangabe
-import copy  # Klonen
-import csv   # CSV Dateien
-import sys   # System ( übergebene Argumente...)
+import os     # Pfadangabe
+import copy   # Klonen
+import csv    # CSV Dateien
+import sys    # System ( übergebene Argumente...)
+import pandas #
 
 
 # kurze Kontrolle der zu teilenden Datei

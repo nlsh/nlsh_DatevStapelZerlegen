@@ -50,6 +50,8 @@ def nlsh_datev_stapel_zerlegen(zu_teilender_buchungsstapel):
                   ['November',    '1101', '1130', []],
                   ['Dezember',    '1201', '1231', []]
                   ]
+    # Kurze Kontrolle der Übergabe
+    control_input_file(zu_teilender_buchungsstapel)
 
     # Name und Pfad der zur zerlegenden Datei ermitteln
     # name_buchungsstapel = os.path.basename(zu_teilender_buchungsstapel)
@@ -138,7 +140,4 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         print('Den zu teilenden Buchungsstapel bitte inklusive kompletten Pfad als Parameter angeben!')
     else:
-        # Kurze Kontrolle der Übergabe
-        control_input_file(sys.argv[1])
-
         nlsh_datev_stapel_zerlegen(sys.argv[1])

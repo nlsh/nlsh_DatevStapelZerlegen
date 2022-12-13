@@ -9,14 +9,46 @@ Zerlegung eines mehrmonatigem DATEV- Buchungsstapels in einzelne Monats- Buchung
  * @license   LGPL-3.0
 
 """
+
 # Imports
 # Module importieren
-import os     # Pfadangabe
-import copy   # Klonen
-import csv    # CSV Dateien
-import sys    # System ( übergebene Argumente...)
-import pandas #
+import argparse
+import copy  # Klonen
+import csv  # CSV Dateien
+import os  # Pfadangabe
+import sys  # System ( übergebene Argumente...)
+from argparse import ArgumentParser
 
+"""
+ " argparse Modul initialisieren und Fehler im Aufruf des Programmes abfangen"
+ " Dokumentation von argparse unter https://docs.python.org/3.9/library/argparse.html")
+"""
+
+
+def parser():
+    # Parser- Objekt mit Beschreibung der Funktion des Programmes erzeugen
+    #  mit epilog='wird nach der Beschreibung desProgrammes Text aufgelistet'
+    input_parser: ArgumentParser = argparse.ArgumentParser(
+        # Beschreibung, wird als erste Zeile der Erläuterung angezeigt
+        description = 'Programmaufruf',
+
+        # den originalen Namen der ausführenden Datei ersetzen
+        # prog='ersetzt den originalen Namen der aufgerufenen Datei',
+
+        # Schlusssatz
+        epilog = 'Versuchen Sie es bitte erneut.'
+    )
+
+    # Definitionen der unbedingt benötigten Parameter in Reihenfolge, ansonsten Fehlerausgabe
+    # ohne "-" im String
+    input_parser.add_argument('[Pfad/Name]', type = str, help = 'Pfad/Name zur bearbeitenden Datei')
+
+    # Definitionen der obtionalen Parameter
+    # mit "-" im String
+    # input_parser.add_argument('-OptionalString', type=str,  help="Optionale Parameter als String")
+
+    # Parameter gemäß argParse Modul zurückgeben, wenn alle Bedingungen erfüllt
+    return input_parser.parse_args()
 
 # kurze Kontrolle der zu teilenden Datei
 def control_input_file(file):
@@ -131,11 +163,13 @@ def nlsh_datev_stapel_zerlegen(zu_teilender_buchungsstapel):
 
 # Hauptprogramm, wenn direkt aufgerufen wird
 if __name__ == '__main__':
-    """
-    Hauptfunktion, wenn dieses Script direkt aufgerufen wird
-    Überprüfung auf übergebenen Parameter
-    """
-    # Zuerst Kontrolle, ob Parameter übergeben wurde; ([0]->Name der Datei; [1]-> 1. Parameter )
+
+    # Kontrolle des Aufrufs, ob alle benötigten Parameter korrekt sind
+    # es wird das argparse Modul genutzt
+    # es werden die einzelnen Parameter als Liste in argParser gespeichert
+    argParser = parser()
+
+    # Kontrolle, ob Parameter übergeben wurde; ([0]->Name der Datei; [1]-> 1. Parameter )
     if len(sys.argv) != 2:
         print('Den zu teilenden Buchungsstapel bitte inklusive kompletten Pfad als Parameter angeben!')
     else:
